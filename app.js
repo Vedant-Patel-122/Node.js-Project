@@ -49,7 +49,7 @@ app.get('/',(req,res)=>
 
 app.get('/insert', (req, res) => {
 
-    const select_query = 'select * from employeedata';
+    const select_query = 'select * from employeedata order by empid';
 
     con.query(select_query, null, (err, result) => {
         if (err) {
