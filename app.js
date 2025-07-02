@@ -93,7 +93,7 @@ app.get('/edit/:empid/:empname/:mobile/:salary',(req,res)=>
     let emobile = req.params.mobile;
     let esalary = req.params.salary;
 
-    res.render('D:/Employee salary/View/update.ejs',{data1:eid, data2:ename, data3:emobile, data4:esalary})
+    res.render('update.ejs',{data1:eid, data2:ename, data3:emobile, data4:esalary})
 })
 
 
