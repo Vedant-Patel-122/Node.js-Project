@@ -2,9 +2,9 @@ const express = require('express');
 require('dotenv').config({path:".env"});
 const { Pool} = require('pg');
 const app = express();
+const path = require('path');
 
 
-var total_salary = null;
 // const con = new Pool(
 //     {
 //         user: process.env.DB_USER,
@@ -31,16 +31,17 @@ con.connect()
     })
 
 
-app.use(express.static('D:/Employee salary/View/homepage')); // this is used to serve static files like css, js, images etc.
+app.use(express.static(path.join(__dirname, 'View', 'homepage'))); // this is used to serve static files like css, js, images etc.
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'View'));
 app.use(express.json()); // this is accept data in json format
 app.use(express.urlencoded({ extended: false })); // it is used to decode the data send through html page
 
-
+var total_salary = null;
 
 app.get('/',(req,res)=>
 {
-    res.sendFile('D:/Employee salary/View/homepage.html')
+    res.sendFile(path.join(__dirname, 'View', 'homepage.html'));
 })
 
 
@@ -57,7 +58,7 @@ app.get('/insert', (req, res) => {
         } else
         {
            
-            res.render('D:/Employee salary/View/insert.ejs', {employees: result.rows || []});
+            res.render('insert.ejs', {employees: result.rows || []});
            
         }
     });
@@ -173,7 +174,7 @@ app.get('/payroll/:id',(req,res)=>
         else
         {
            
-            res.render('D:/Employee salary/View/payroll.ejs', {employees: result.rows || [], empid: eid, total_salary: total_salary});
+            res.render('payroll.ejs', {employees: result.rows || [], empid: eid, total_salary: total_salary});
         }
     });
 
@@ -212,7 +213,7 @@ app.get('/editpayroll/:empid/:workingday/:status/:uppad/:remainsalary/:salaryper
     const { empid, workingday, status, uppad, remainsalary, salaryperday } = req.params;
 
 
-    res.render('D:/Employee salary/View/updatePayroll.ejs', {empid,workingday,status,uppad,remainsalary,salaryperday});
+    res.render('updatePayroll.ejs', {empid,workingday,status,uppad,remainsalary,salaryperday});
 });
 
 
@@ -241,11 +242,7 @@ app.post('/updatepayroll', (req, res) => {
 
 app.get('/deletepayroll/:eid/:date', (req, res) => {
     const id = req.params.eid;
-    const inputDate = req.params.date;
-
-
-
-   
+    const inputDate = req.params.date;   
     const [day, month, year] = inputDate.split('-');
     const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
 
