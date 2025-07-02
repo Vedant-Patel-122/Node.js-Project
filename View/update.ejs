@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Employee Data</title>
+</head>
+
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px;">
+
+    <h3 style="text-align: center; color: #34495e;">Employee Attendance System</h3>
+
+    <div class="form-container"
+        style="background-color: #fff; padding: 20px; margin: 20px auto; width: 400px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+        <h2 style="text-align: center; color: #2980b9;">Update Employee Data</h2>
+        <form action="/update" method="post">
+            <div style="margin-bottom: 15px;">
+                <label for="id" style="display: block; margin-bottom: 5px;">Employee ID</label>
+                <input type="number" id="id" name="id" value="<%= data1 %>" readonly
+                    style="width: 90%; padding: 8px; background-color: #ecf0f1;">
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label for="name" style="display: block; margin-bottom: 5px;">Employee Name</label>
+                <input type="text" id="name" name="name" value="<%= data2 %>" style="width: 90%; padding: 8px;">
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label for="mobile" style="display: block; margin-bottom: 5px;">Employee Mobile Number</label>
+                <input type="number" id="mobile" name="mobile" value="<%= data3 %>" style="width: 90%; padding: 8px;">
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label for="salary" style="display: block; margin-bottom: 5px;">Employee Salary</label>
+                <input type="number" id="salary" name="salary" value="<%= data4 %>" style="width: 90%; padding: 8px;">
+            </div>
+
+            <button type="submit"
+                style="padding: 10px 20px; background-color: #27ae60; color: white; border: none; cursor: pointer; border-radius: 5px;">Update
+                Employee</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

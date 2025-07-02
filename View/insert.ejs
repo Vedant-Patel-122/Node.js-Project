@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Attendance</title>
+</head>
+
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px;">
+
+    <h3 style="text-align: center; color: #34495e;">Employee Attendance System</h3>
+
+    <div class="form-container"
+        style="background-color: #fff; padding: 20px; margin: 20px auto; width: 400px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+        <h2 style="text-align: center; color: #2980b9;">Add Employee Data</h2>
+        <form action="/submit" method="post">
+            <div style="margin-bottom: 15px;">
+                <label for="id" style="display: block; margin-bottom: 5px;">Employee Id</label>
+                <input type="number" id="id" name="id" required style="width: 90%; padding: 8px;">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label for="name" style="display: block; margin-bottom: 5px;">Employee Name</label>
+                <input type="text" id="name" name="name" required style="width: 90%; padding: 8px;">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label for="mobile" style="display: block; margin-bottom: 5px;">Employee Mobile Number</label>
+                <input type="number" id="mobile" name="mobile" required style="width: 90%; padding: 8px;">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label for="salary" style="display: block; margin-bottom: 5px;">Employee Salary</label>
+                <input type="number" id="salary" name="salary" required style="width: 90%; padding: 8px;">
+            </div>
+            <button type="submit"
+                style="padding: 10px 20px; background-color: #27ae60; color: white; border: none; cursor: pointer; border-radius: 5px;">Add
+                Employee</button>
+        </form>
+    </div>
+
+    <% if (employees && employees.length > 0) { %>
+    <table border="1" cellpadding="5"
+        style="width: 90%; margin: 0 auto; background-color: #fff; border-collapse: collapse; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+        <tr style="background-color: #2980b9; color: white;">
+            <th>ID</th>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>Salary</th>
+            <th>Actions</th>
+        </tr>
+        <% employees.forEach(emp => { %>
+            <tr style="text-align: center;">
+                <td><%= emp.empid %></td>
+                <td><%= emp.empname %></td>
+                <td><%= emp.mobile %></td>
+                <td><%= emp.salary %></td>
+                <td>
+                    <a href="/edit/<%= emp.empid %>/<%= emp.empname %>/<%= emp.mobile %>/<%= emp.salary %>" style="color: #2980b9;">Edit</a> |
+                    <a href="/payroll/<%= emp.empid %>" style="color: #27ae60;">Payroll</a> |
+                    <a href="/delete/<%= emp.empid %>" onclick="return confirm('Are you sure?')" style="color: #c0392b;">Delete</a>
+                </td>
+            </tr>
+        <% }) %>
+    </table>
+<% } else { %>
+    <p style="text-align:center; color: #888;">No employee data found.</p>
+<% } %>
+</body>
+
+</html>
