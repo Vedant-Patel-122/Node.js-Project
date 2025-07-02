@@ -213,7 +213,7 @@ app.get('/editpayroll/:empid/:workingday/:status/:uppad/:remainsalary/:salaryper
     const { empid, workingday, status, uppad, remainsalary, salaryperday } = req.params;
 
 
-    res.render('updatePayroll.ejs', {empid,workingday,status,uppad,remainsalary,salaryperday});
+    res.render('updatepayroll.ejs', {empid,workingday,status,uppad,remainsalary,salaryperday});
 });
 
 
