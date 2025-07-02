@@ -2,7 +2,7 @@ const express = require('express');
 require('dotenv').config({path:".env"});
 const { Pool} = require('pg');
 const app = express();
-const port = 8000;
+
 
 var total_salary = null;
 // const con = new Pool(
@@ -262,6 +262,6 @@ app.get('/deletepayroll/:eid/:date', (req, res) => {
 });
 
 
-app.listen(port, () => {
-    console.log(`server is running at:${port}`)
+app.listen(process.env.PORT, () => {
+    console.log(`server is running`)
 })
