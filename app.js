@@ -4,17 +4,6 @@ const { Pool} = require('pg');
 const app = express();
 const path = require('path');
 
-
-// const con = new Pool(
-//     {
-//         user: process.env.DB_USER,
-//         host: process.env.DB_HOST,
-//         database: process.env.DB_DATABASE,
-//         password: process.env.DB_PASSWORD,
-//         port: Number(process.env.DB_PORT)
-//     }
-// );
-
 const con = new Pool({
     connectionString: process.env.POSTGRES_URL,
     ssl: {
@@ -37,14 +26,56 @@ app.set('views', path.join(__dirname, 'View'));
 app.use(express.json()); // this is accept data in json format
 app.use(express.urlencoded({ extended: false })); // it is used to decode the data send through html page
 
-var total_salary = null;
+let total_salary = null;
+
+
+function userinsert(req, res, next) {
+    const { id, mobile } = req.body;
+
+    const select_query1 = 'select empid from employeedata where empid = $1'
+    const select_query2 = 'select mobile from employeedata where mobile = $1'
+
+    con.query(select_query1, [id], (err, result) => {
+    if (err) {
+        res.send(err);
+    } else {
+        if (result.rows.length > 0) {
+            con.query('SELECT * FROM employeedata ORDER BY empid', (err2, result2) => {
+                if (err2) return res.send(err2);
+                res.render('insert.ejs', {
+                    alert: 'Employee Id already exists',
+                    employees: result2.rows || []
+                });
+            });
+        } else {
+            con.query(select_query2, [mobile], (err, result) => {
+                if (err) {
+                    res.send(err);
+                } else {
+                    if (result.rows.length > 0) {
+                        con.query('SELECT * FROM employeedata ORDER BY empid', (err2, result2) => {
+                            if (err2) return res.send(err2);
+                            res.render('insert.ejs', {
+                                alert: 'Employee Mobile number already exists',
+                                employees: result2.rows || []
+                            });
+                        });
+                    } else {
+                        next();
+                    }
+                }
+            });
+        }
+    }
+});
+}
+
+
 
 app.get('/',(req,res)=>
 {
     res.sendFile(path.join(__dirname, 'View', 'homepage.html'));
 })
-
-
 
 
 app.get('/insert', (req, res) => {
@@ -66,7 +97,7 @@ app.get('/insert', (req, res) => {
 
 
 
-app.post('/submit',(req,res)=>
+app.post('/submit',userinsert,(req,res)=>
 {
     const {id,name,mobile,salary} = req.body;
 
@@ -175,6 +206,7 @@ app.get('/payroll/:id',(req,res)=>
         {
            
             res.render('payroll.ejs', {employees: result.rows || [], empid: eid, total_salary: total_salary});
+            
         }
     });
 
@@ -254,6 +286,50 @@ app.get('/deletepayroll/:eid/:date', (req, res) => {
             res.status(500).send("Error deleting payroll record");
         } else {
             res.redirect(`/payroll/${id}`);
+        }
+    });
+});
+
+
+app.get('/payrollHistory/:id',(req,res)=>   
+{
+    const eid = req.params.id;
+    
+    res.render('payrollhistory.ejs',{empid:eid, employees: []});
+})
+
+
+
+app.post('/findpayrolldata', (req, res) => {
+    const eid = req.body.id;
+    const monthyear = req.body.monthyear; 
+    const month1 = monthyear.substring(5,7);
+    const year1 = monthyear.substring(0,4);
+    const month2 = monthyear.substring(5,7);
+    const year2 = monthyear.substring(0,4);
+    
+
+    const select_query = ` SELECT es.*,ed.salary AS e_salary,agg.sum_uppad,ed.salary - agg.sum_uppad AS salary_diff
+    FROM employeesalary es
+    JOIN employeedata ed ON ed.empid = es.empid
+    JOIN (SELECT empid, SUM(uppad) AS sum_uppad FROM employeesalary
+    WHERE EXTRACT(MONTH FROM workingday) = $1
+    AND EXTRACT(YEAR FROM workingday) = $2
+    GROUP BY empid) agg ON agg.empid = es.empid
+    WHERE es.empid = $3
+    AND EXTRACT(MONTH FROM es.workingday) = $4
+    AND EXTRACT(YEAR FROM es.workingday) = $5;`;
+
+    
+
+    con.query(select_query, [month1, year1,eid,month2,year2], (err, result) => {
+        if (err) {
+            console.log('Fetch error:', err);
+            res.status(500).send("Error fetching payroll history");
+        } else {
+            
+            res.render('payrollhistory.ejs', { employees: result.rows || [], empid: eid });
+
         }
     });
 });

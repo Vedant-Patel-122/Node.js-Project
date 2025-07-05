@@ -2,97 +2,274 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <title>Employee Payroll</title>
+  <meta charset="UTF-8" />
+  <title>Employee Payroll</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .header {
+      position: relative;
+      text-align: center;
+      padding: 10px 40px 10px 10px;
+    }
+
+    .header h3 {
+      color: #34495e;
+      margin: 0;
+    }
+
+    .menu-container {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    .hamburger {
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #2980b9;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-top: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px 16px;
+      text-decoration: none;
+      color: #2980b9;
+      white-space: nowrap;
+      min-width: 140px;
+    }
+
+    .dropdown a:hover {
+      background-color: #f2f2f2;
+    }
+
+    .form-container {
+      background-color: #fff;
+      padding: 20px;
+      margin: 0 auto 30px;
+      max-width: 600px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container h2 {
+      text-align: center;
+      color: #2980b9;
+      margin-bottom: 20px;
+    }
+
+    .form-container label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .form-container input,
+    .form-container select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .form-container button {
+      padding: 10px 20px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    table {
+      width: 100%;
+      background-color: #fff;
+      border-collapse: collapse;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      overflow-x: auto;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    th {
+      background-color: #2980b9;
+      color: white;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .edit {
+      color: #2980b9;
+    }
+
+    .delete {
+      color: #c0392b;
+    }
+
+    .no-records {
+      text-align: center;
+      color: gray;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .form-container {
+        padding: 15px;
+      }
+
+      .header h3 {
+        font-size: 1.2rem;
+      }
+
+      .hamburger {
+        font-size: 22px;
+      }
+
+      th,
+      td {
+        font-size: 13px;
+        padding: 8px;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+
+      .dropdown a {
+        font-size: 14px;
+      }
+    }
+  </style>
 </head>
 
-<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px;">
+<body>
 
-    <h3 style="text-align: center; color: #34495e;">Employee Attendance System</h3>
+  <div class="header">
+    <h3>Employee Attendance System</h3>
 
-    <div class="form-container"
-        style="background-color: #fff; padding: 20px; margin: 20px auto; width: 500px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-        <h2 style="text-align: center; color: #2980b9;">Add Payroll Record</h2>
-
-        <form action="/addPayroll/<%= empid %>" method="post">
-            <div style="margin-bottom: 15px;">
-                <label for="id" style="display: block; margin-bottom: 5px;">Employee Id</label>
-                <input type="number" id="id" name="id" value="<%= empid %>" readonly
-                    style="width: 90%; padding: 8px;">
-            </div>
-            <div style="margin-bottom: 15px;">
-                <label for="date" style="display: block; margin-bottom: 5px;">Date</label>
-                <input type="date" id="date" name="date" required style="width: 90%; padding: 8px;">
-            </div>
-            <div style="margin-bottom: 15px;">
-                <label for="attendance" style="display: block; margin-bottom: 5px;">Attendance Status</label>
-                <select id="attendance" name="attendance" required style="width: 90%; padding: 8px;">
-                    <option value="">-- Attendance --</option>
-                    <option value="Present">Present</option>
-                    <option value="Absent">Absent</option>
-                    <option value="Half Day">Half Day</option>
-                </select>
-            </div>
-            <div style="margin-bottom: 15px;">
-                <label for="uppad" style="display: block; margin-bottom: 5px;">Employee Uppad</label>
-                <input type="number" id="uppad" name="uppad" style="width: 90%; padding: 8px;">
-            </div>
-            <div style="margin-bottom: 15px;">
-                <label for="salaryperday" style="display: block; margin-bottom: 5px;">Salary Per Day</label>
-                <input type="number" id="salaryperday" name="salaryperday" style="width: 90%; padding: 8px;" value="<%= total_salary%>">
-            </div>
-            <div style="text-align: center;">
-                <button type="submit"
-                    style="padding: 10px 20px; background-color: #27ae60; color: white; border: none; cursor: pointer; border-radius: 5px;">Add</button>
-            </div>
-        </form>
+    <div class="menu-container">
+      <button class="hamburger" onclick="toggleDropdown()">☰</button>
+      <div class="dropdown" id="dropdownMenu">
+        <a href="/payrollHistory/<%= empid %>">Payroll History</a>
+      </div>
     </div>
+  </div>
 
-    <% if (employees && employees.length > 0) { %>
-    <table border="1" cellpadding="5"
-        style="width: 90%; margin: 0 auto; background-color: #fff; border-collapse: collapse; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-        <tr style="background-color: #2980b9; color: white;">
-            <th>ID</th>
-            <th>Working Day</th>
-            <th>Status</th>
-            <th>Uppad</th>
-            <th>Remain Salary</th>
-            <th>Salary Per Day</th>
-            <th>Actions</th>
-        </tr>
+  <div class="form-container">
+    <h2>Add Payroll Record</h2>
+    <form action="/addPayroll/<%= empid %>" method="post">
+      <label for="id">Employee Id</label>
+      <input type="number" id="id" name="id" value="<%= empid %>" readonly>
 
-        <% employees.forEach(emp => {
-            const workingDate = new Date(emp.workingday);
-            const month = workingDate.getMonth() + 1; 
-            const date = workingDate.getDate();
-            const year = workingDate.getFullYear();
-            const formattedDate = `${date}-${month}-${year}`;
+      <label for="date">Date</label>
+      <input type="date" id="date" name="date" required>
 
-            
-            
+      <label for="attendance">Attendance Status</label>
+      <select id="attendance" name="attendance" required>
+        <option value="">-- Attendance --</option>
+        <option value="Present">Present</option>
+        <option value="Absent">Absent</option>
+        <option value="Half Day">Half Day</option>
+      </select>
 
-            const url = `/editpayroll/${emp.empid}/${encodeURIComponent(formattedDate)}/${emp.status}/${emp.uppad}/${emp.remainsalary}/${emp.salaryperday}`;
-            const url_delete = `/deletepayroll/${emp.empid}/${encodeURIComponent(formattedDate)}`;
+      <label for="uppad">Employee Uppad(Rs.)</label>
+      <input type="number" id="uppad" name="uppad">
 
-        %>
-        <tr style="text-align: center;">
-            <td><%= emp.empid %></td>
-            <td><%= formattedDate %></td>
-            <td><%= emp.status %></td>
-            <td><%= emp.uppad %></td>
-            <td><%= emp.remainsalary %></td>
-            <td><%= emp.salaryperday %></td>
-            <td>
-                <a href="<%= url %>" style="color: #2980b9;">Edit</a> |
-                <a href="<%= url_delete %>" onclick="return confirm('Are you sure?')"
-                    style="color: #c0392b;">Delete</a>
-            </td>
-        </tr>
-        <% }) %>
-    </table>
-    <% } else { %>
-    <p style="text-align: center; color: gray; margin-top: 20px;">No payroll records found for this employee yet.</p>
-    <% } %>
+      <label for="salaryperday">Salary Per Day(Rs.)</label>
+      <input type="number" id="salaryperday" name="salaryperday" value="<%= total_salary %>">
+
+      <button type="submit">Add Payroll</button>
+    </form>
+  </div>
+
+  <% if (employees && employees.length > 0) { %>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Working Day</th>
+        <th>Status</th>
+        <th>Uppad(Rs.)</th>
+        <th>Remain Salary(Rs.)</th>
+        <th>Salary Per Day(Rs.)</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% employees.forEach(emp => {
+          const workingDate = new Date(emp.workingday);
+          const month = workingDate.getMonth() + 1;
+          const date = workingDate.getDate();
+          const year = workingDate.getFullYear();
+          const formattedDate = `${date}-${month}-${year}`;
+          const url = `/editpayroll/${emp.empid}/${encodeURIComponent(formattedDate)}/${emp.status}/${emp.uppad}/${emp.remainsalary}/${emp.salaryperday}`;
+          const url_delete = `/deletepayroll/${emp.empid}/${encodeURIComponent(formattedDate)}`;
+      %>
+      <tr>
+        <td><%= emp.empid %></td>
+        <td><%= formattedDate %></td>
+        <td><%= emp.status %></td>
+        <td><%= emp.uppad %></td>
+        <td><%= emp.remainsalary %></td>
+        <td><%= emp.salaryperday %></td>
+        <td>
+          <a href="<%= url %>" class="edit">Edit</a> |
+          <a href="<%= url_delete %>" class="delete" onclick="return confirm('Are you sure?')">Delete</a>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <% } else { %>
+  <p class="no-records">No payroll records found for this employee yet.</p>
+  <% } %>
+
+  <script>
+    function toggleDropdown() {
+      const dropdown = document.getElementById('dropdownMenu');
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    document.addEventListener('click', function (event) {
+      const isClickInside = document.querySelector('.menu-container').contains(event.target);
+      if (!isClickInside) {
+        document.getElementById('dropdownMenu').style.display = 'none';
+      }
+    });
+  </script>
 
 </body>
 

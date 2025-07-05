@@ -2,43 +2,105 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Update Employee Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h3 {
+            text-align: center;
+            color: #34495e;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            color: #2980b9;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        input[readonly] {
+            background-color: #ecf0f1;
+        }
+
+        button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            .form-container {
+                padding: 15px;
+            }
+
+            input {
+                padding: 8px;
+                font-size: 15px;
+            }
+
+            button {
+                padding: 8px 16px;
+                font-size: 15px;
+            }
+        }
+    </style>
 </head>
 
-<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px;">
+<body>
 
-    <h3 style="text-align: center; color: #34495e;">Employee Attendance System</h3>
+    <h3>Employee Attendance System</h3>
 
-    <div class="form-container"
-        style="background-color: #fff; padding: 20px; margin: 20px auto; width: 400px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-        <h2 style="text-align: center; color: #2980b9;">Update Employee Data</h2>
+    <div class="form-container">
+        <h2>Update Employee Data</h2>
         <form action="/update" method="post">
-            <div style="margin-bottom: 15px;">
-                <label for="id" style="display: block; margin-bottom: 5px;">Employee ID</label>
-                <input type="number" id="id" name="id" value="<%= data1 %>" readonly
-                    style="width: 90%; padding: 8px; background-color: #ecf0f1;">
-            </div>
+            <label for="id">Employee ID</label>
+            <input type="number" id="id" name="id" value="<%= data1 %>" readonly>
 
-            <div style="margin-bottom: 15px;">
-                <label for="name" style="display: block; margin-bottom: 5px;">Employee Name</label>
-                <input type="text" id="name" name="name" value="<%= data2 %>" style="width: 90%; padding: 8px;">
-            </div>
+            <label for="name">Employee Name</label>
+            <input type="text" id="name" name="name" value="<%= data2 %>">
 
-            <div style="margin-bottom: 15px;">
-                <label for="mobile" style="display: block; margin-bottom: 5px;">Employee Mobile Number</label>
-                <input type="number" id="mobile" name="mobile" value="<%= data3 %>" style="width: 90%; padding: 8px;">
-            </div>
+            <label for="mobile">Employee Mobile Number</label>
+            <input type="number" id="mobile" name="mobile" value="<%= data3 %>" maxlength="15">
 
-            <div style="margin-bottom: 15px;">
-                <label for="salary" style="display: block; margin-bottom: 5px;">Employee Salary</label>
-                <input type="number" id="salary" name="salary" value="<%= data4 %>" style="width: 90%; padding: 8px;">
-            </div>
+            <label for="salary">Employee Salary(Rs.)</label>
+            <input type="number" id="salary" name="salary" value="<%= data4 %>">
 
-            <button type="submit"
-                style="padding: 10px 20px; background-color: #27ae60; color: white; border: none; cursor: pointer; border-radius: 5px;">Update
-                Employee</button>
+            <button type="submit">Update Employee</button>
         </form>
     </div>
 

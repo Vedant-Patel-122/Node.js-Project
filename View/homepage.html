@@ -4,15 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kiran Auto Parts And Services</title>
-</head>
-<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; padding: 50px;">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px 20px;
+            margin: 0;
+        }
 
-    <h1 style="color: #2c3e50;">Kiran Auto Parts And Services</h1>
-    <h3 style="color: #34495e;">Employee Attendance System</h3>
-    <br>
-    
-    <div style="margin-top: 30px;">
-        <a href="/insert" style="padding: 12px 25px; background-color: #2980b9; color: white; text-decoration: none; border-radius: 5px; font-size: 16px; display: inline-block;">Employee Attendance</a>
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+        }
+
+        h3 {
+            color: #34495e;
+            font-size: 1.5em;
+        }
+
+        .button-container {
+            margin-top: 30px;
+        }
+
+        .attendance-button {
+            padding: 12px 25px;
+            background-color: #2980b9;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .attendance-button:hover {
+            background-color: #1f6391;
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            h3 {
+                font-size: 1.2em;
+            }
+
+            .attendance-button {
+                width: 90%;
+                font-size: 18px;
+                padding: 14px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Kiran Auto Parts And Services</h1>
+    <h3>Employee Attendance System</h3>
+
+    <div class="button-container">
+        <a href="/insert" class="attendance-button">Employee Attendance</a>
     </div>
 
 </body>
