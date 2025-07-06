@@ -55,10 +55,7 @@ function userinsert(req, res, next) {
                     if (result.rows.length > 0) {
                         con.query('SELECT * FROM employeedata ORDER BY empid', (err2, result2) => {
                             if (err2) return res.send(err2);
-                            res.render('insert.ejs', {
-                                alert: 'Employee Mobile number already exists',
-                                employees: result2.rows || []
-                            });
+                            res.render('insert.ejs', {alert: 'Employee Mobile number already exists',employees: result2.rows || []});
                         });
                     } else {
                         next();
@@ -69,6 +66,35 @@ function userinsert(req, res, next) {
     }
 });
 }
+
+
+function userupdate(req, res, next) {
+const {mobile} = req.body;
+
+    const select_query1 = 'select mobile from employeedata where mobile = $1'
+
+    con.query(select_query1, [mobile], (err, result) => {
+        if (err) 
+        {
+            res.send(err);
+        }
+
+        else
+        {
+
+           if(result.rows.length > 0)
+            {
+                res.render('update.ejs', {alert: 'Employee Mobile number already exists',data1: req.body.id,data2: req.body.name,data3: req.body.mobile,data4: req.body.salary});
+            }
+
+           else
+           {
+            next();
+           }
+        }
+    })
+}
+
 
 
 
@@ -128,7 +154,7 @@ app.get('/edit/:empid/:empname/:mobile/:salary',(req,res)=>
 })
 
 
-app.post('/update',(req,res)=>
+app.post('/update',userupdate,(req,res)=>
 {
     const {id,name,mobile,salary} = req.body;
 
@@ -318,7 +344,8 @@ app.post('/findpayrolldata', (req, res) => {
     GROUP BY empid) agg ON agg.empid = es.empid
     WHERE es.empid = $3
     AND EXTRACT(MONTH FROM es.workingday) = $4
-    AND EXTRACT(YEAR FROM es.workingday) = $5;`;
+    AND EXTRACT(YEAR FROM es.workingday) = $5
+    ORDER BY workingday;`;
 
     
 

@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Employee Attendance</title>
+  <title>Kiran Auto Parts And Services</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
@@ -95,6 +95,7 @@
 
     .delete {
       color: #c0392b;
+      cursor: pointer;
     }
 
     .no-records {
@@ -159,7 +160,7 @@
     <table>
       <thead>
         <tr>
-          <th>ID</th>
+          <th>Employee ID</th>
           <th>Name</th>
           <th>Mobile</th>
           <th>Salary(Rs.)</th>
@@ -176,7 +177,7 @@
             <td>
               <a href="/edit/<%= emp.empid %>/<%= emp.empname %>/<%= emp.mobile %>/<%= emp.salary %>" class="edit">Edit</a> |
               <a href="/payroll/<%= emp.empid %>" class="payroll">Payroll</a> |
-              <a href="/delete/<%= emp.empid %>" class="delete" onclick="return confirm('Are you sure?')">Delete</a>
+              <a href="#" class="delete" onclick="confirmDelete('<%= emp.empid %>')">Delete</a>
             </td>
           </tr>
         <% }) %>
@@ -190,7 +191,7 @@
   <% if (typeof alert !== 'undefined' && alert) { %>
     <script>
       Swal.fire({
-        icon: 'warning', // or 'success', 'error', etc.
+        icon: 'warning',
         text: "<%= alert %>",
         confirmButtonColor: '#27ae60',
         width: window.innerWidth < 500 ? '90%' : '400px',
@@ -202,6 +203,29 @@
       });
     </script>
   <% } %>
+
+  <!-- SweetAlert Delete Confirmation -->
+  <script>
+    function confirmDelete(empId) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "This will permanently delete the employee data!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#c0392b',
+        cancelButtonColor: '#7f8c8d',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel',
+        customClass: {
+          popup: 'responsive-swal'
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = `/delete/${empId}`;
+        }
+      });
+    }
+  </script>
 
 </body>
 </html>

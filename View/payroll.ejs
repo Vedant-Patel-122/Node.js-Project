@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Employee Payroll</title>
+  <title>Kiran Auto Parts And Services</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
@@ -135,6 +135,7 @@
 
     .delete {
       color: #c0392b;
+      cursor: pointer;
     }
 
     .no-records {
@@ -172,6 +173,10 @@
         font-size: 14px;
       }
     }
+
+    .swal2-popup.responsive-swal {
+      font-size: 14px !important;
+    }
   </style>
 </head>
 
@@ -179,7 +184,6 @@
 
   <div class="header">
     <h3>Employee Attendance System</h3>
-
     <div class="menu-container">
       <button class="hamburger" onclick="toggleDropdown()">☰</button>
       <div class="dropdown" id="dropdownMenu">
@@ -219,7 +223,7 @@
   <table>
     <thead>
       <tr>
-        <th>ID</th>
+        <th>Employee ID</th>
         <th>Working Day</th>
         <th>Status</th>
         <th>Uppad(Rs.)</th>
@@ -247,7 +251,7 @@
         <td><%= emp.salaryperday %></td>
         <td>
           <a href="<%= url %>" class="edit">Edit</a> |
-          <a href="<%= url_delete %>" class="delete" onclick="return confirm('Are you sure?')">Delete</a>
+          <a href="javascript:void(0);" class="delete" data-url="<%= url_delete %>">Delete</a>
         </td>
       </tr>
       <% }) %>
@@ -256,6 +260,9 @@
   <% } else { %>
   <p class="no-records">No payroll records found for this employee yet.</p>
   <% } %>
+
+  <!-- SweetAlert2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
     function toggleDropdown() {
@@ -269,8 +276,33 @@
         document.getElementById('dropdownMenu').style.display = 'none';
       }
     });
+
+    // SweetAlert2 delete confirmation
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.delete').forEach(button => {
+        button.addEventListener('click', function () {
+          const deleteUrl = this.getAttribute('data-url');
+          Swal.fire({
+            title: 'Are you sure?',
+            text: "This payroll record will be permanently deleted!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e74c3c',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel',
+            customClass: {
+              popup: 'responsive-swal'
+            }
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = deleteUrl;
+            }
+          });
+        });
+      });
+    });
   </script>
 
 </body>
-
 </html>

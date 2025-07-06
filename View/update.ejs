@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Update Employee Data</title>
+    <title>Kiran Auto Parts And Services</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -78,6 +79,12 @@
                 font-size: 15px;
             }
         }
+
+    /* SweetAlert custom responsive styling */
+    .swal2-popup.responsive-swal {
+    font-size: 14px !important;
+    }
+
     </style>
 </head>
 
@@ -103,6 +110,24 @@
             <button type="submit">Update Employee</button>
         </form>
     </div>
+
+    <!-- SweetAlert Alert if alert variable is set -->
+  <% if (typeof alert !== 'undefined' && alert) { %>
+    <script>
+      Swal.fire({
+        icon: 'warning', // or 'success', 'error', etc.
+        text: "<%= alert %>",
+        confirmButtonColor: '#27ae60',
+        width: window.innerWidth < 500 ? '90%' : '400px',
+        padding: '1.5em',
+        backdrop: true,
+        customClass: {
+          popup: 'responsive-swal'
+        }
+      });
+    </script>
+  <% } %>
+
 
 </body>
 
