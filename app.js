@@ -20,7 +20,7 @@ con.connect()
     })
 
 
-app.use(express.static(path.join(__dirname, 'View', 'homepage'))); // this is used to serve static files like css, js, images etc.
+app.use(express.static(path.join(__dirname, 'View'))); // this is used to serve static files like css, js, images etc.
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'View'));
 app.use(express.json()); // this is accept data in json format
