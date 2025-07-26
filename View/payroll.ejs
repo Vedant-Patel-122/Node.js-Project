@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <title>Kiran Auto Parts And Services</title>
@@ -179,9 +178,75 @@
       font-size: 14px !important;
     }
   </style>
+
+<%
+  var attendanceSelect = null;
+  var salaryPerDayInput = 0;
+  var workingdate = null;
+  var originalSalary = null;
+
+%>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const attendanceSelect = document.getElementById('attendance');
+    const salaryPerDayInput = document.getElementById('salaryperday');
+    const workingDateInput = document.getElementById('date');
+    const originalSalary = parseFloat("<%= total_salary %>");
+
+    let calculatedPerDay = originalSalary / 30;
+
+    function isLeapYear(year) {
+      return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+    }
+
+    function updateSalaryPerDay() {
+      const selectedDate = new Date(workingDateInput.value);
+      const month = selectedDate.getMonth(); // 0 = Jan, 1 = Feb, ...
+      const year = selectedDate.getFullYear();
+
+      // Calculate per-day salary based on month and leap year
+      if (month === 1) {
+        calculatedPerDay = originalSalary / (isLeapYear(year) ? 29 : 28);
+      } else {
+        calculatedPerDay = originalSalary / 30;
+      }
+
+      applyAttendanceSalary();
+    }
+
+    function applyAttendanceSalary() {
+      const status = attendanceSelect.value;
+      let finalSalary = calculatedPerDay;
+
+      switch (status) {
+        case 'Absent':
+          finalSalary = 0.00;
+          break;
+        case 'Half Day':
+          finalSalary = calculatedPerDay / 2;
+          break;
+        case 'Present':
+        case 'Holiday':
+          finalSalary = calculatedPerDay;
+          break;
+        default:
+          finalSalary = 0;
+      }
+
+      salaryPerDayInput.value = finalSalary.toFixed(2);
+    }
+
+    workingDateInput.addEventListener('change', updateSalaryPerDay);
+    attendanceSelect.addEventListener('change', applyAttendanceSalary);
+  });
+</script>
+
+
 </head>
 
 <body>
+  
 
   <div class="header">
     <h3>Employee Attendance System</h3>
@@ -212,10 +277,10 @@
       </select>
 
       <label for="uppad">Employee Uppad(Rs.)</label>
-      <input type="number" id="uppad" name="uppad">
+      <input type="number" id="uppad" name="uppad" value=0 step="0.01">
 
       <label for="salaryperday">Salary Per Day(Rs.)</label>
-      <input type="number" id="salaryperday" name="salaryperday" value="<%= total_salary %>">
+      <input type="number" id="salaryperday" name="salaryperday" value=<%= salaryPerDayInput%> step="0.01" readonly>
 
       <button type="submit">Add Payroll</button>
     </form>
@@ -266,45 +331,7 @@
   <!-- SweetAlert2 CDN -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <script>
-    function toggleDropdown() {
-      const dropdown = document.getElementById('dropdownMenu');
-      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-    }
-
-    document.addEventListener('click', function (event) {
-      const isClickInside = document.querySelector('.menu-container').contains(event.target);
-      if (!isClickInside) {
-        document.getElementById('dropdownMenu').style.display = 'none';
-      }
-    });
-
-    // SweetAlert2 delete confirmation
-    document.addEventListener('DOMContentLoaded', function () {
-      document.querySelectorAll('.delete').forEach(button => {
-        button.addEventListener('click', function () {
-          const deleteUrl = this.getAttribute('data-url');
-          Swal.fire({
-            title: 'Are you sure?',
-            text: "This payroll record will be permanently deleted!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#e74c3c',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'Cancel',
-            customClass: {
-              popup: 'responsive-swal'
-            }
-          }).then((result) => {
-            if (result.isConfirmed) {
-              window.location.href = deleteUrl;
-            }
-          });
-        });
-      });
-    });
-  </script>
+  <!-- Dropdown & Delete confirmation -->
 
 </body>
 </html>

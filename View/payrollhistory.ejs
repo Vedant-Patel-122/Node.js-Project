@@ -263,8 +263,11 @@
 
   <div class="salary-summary">
     <% if (employees && employees.length > 0) { 
-         const salary = employees[0].e_salary;
-         const remain_salary = employees[0].salary_diff;
+         let salary = employees[0].e_salary;
+         let remain_salary = employees[0].total_remain_salary;
+         remain_salary = Math.floor(remain_salary);
+         let total_salary = employees[0].total_salary;
+         total_salary = Math.floor(total_salary);
     %>
       <div class="summary-card bg-end-salary">
         <h3>End-of-month Salary</h3>
@@ -273,7 +276,7 @@
 
       <div class="summary-card bg-total-salary">
         <h3>Total Monthly Salary</h3>
-        <p class="amount"><i class="fa fa-money-bill"></i> ₹<%= salary %></p>
+        <p class="amount"><i class="fa fa-money-bill"></i> ₹<%= total_salary %></p>
       </div>
 
     <% } else { %>

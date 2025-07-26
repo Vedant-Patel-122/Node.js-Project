@@ -104,13 +104,14 @@
                 <option value="Present" <%= status === "Present" ? "selected" : "" %>>Present</option>
                 <option value="Absent" <%= status === "Absent" ? "selected" : "" %>>Absent</option>
                 <option value="Half Day" <%= status === "Half Day" ? "selected" : "" %>>Half Day</option>
+                <option value="Holiday" <%= status === "Holiday" ? "selected" : "" %>>Holiday</option>
             </select>
 
             <label for="uppad">Uppad(Rs.)</label>
-            <input type="number" id="uppad" name="uppad" value="<%= uppad %>">
+            <input type="number" id="uppad" name="uppad" step="0.01" value="<%= uppad %>">
 
             <label for="salaryperday">Salary Per Day(Rs.)</label>
-            <input type="number" id="salaryperday" name="salaryperday" value="<%= salaryperday %>">
+            <input type="number" id="salaryperday" name="salaryperday" step="0.01" value="<%= salaryperday %>">
 
             <button type="submit">Update Payroll</button>
         </form>
