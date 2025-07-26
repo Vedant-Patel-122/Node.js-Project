@@ -187,7 +187,12 @@
 
 %>
 
-  <script>
+<script>
+  function toggleDropdown() {
+      const dropdown = document.getElementById('dropdownMenu');
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+    
   document.addEventListener('DOMContentLoaded', function () {
     const attendanceSelect = document.getElementById('attendance');
     const salaryPerDayInput = document.getElementById('salaryperday');
