@@ -192,8 +192,31 @@
       const dropdown = document.getElementById('dropdownMenu');
       dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
     }
-    
+
   document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.delete').forEach(button => {
+        button.addEventListener('click', function () {
+          const deleteUrl = this.getAttribute('data-url');
+          Swal.fire({
+            title: 'Are you sure?',
+            text: "This payroll record will be permanently deleted!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e74c3c',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel',
+            customClass: {
+              popup: 'responsive-swal'
+            }
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = deleteUrl;
+            }
+          });
+        });
+      });
+
     const attendanceSelect = document.getElementById('attendance');
     const salaryPerDayInput = document.getElementById('salaryperday');
     const workingDateInput = document.getElementById('date');
