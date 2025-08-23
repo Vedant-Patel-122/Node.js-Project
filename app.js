@@ -33,7 +33,7 @@ function userinsert(req, res, next) {
     const { id, mobile } = req.body;
 
     const select_query1 = 'select empid from employeedata where empid = $1'
-    // const select_query2 = 'select mobile from employeedata where mobile = $1'
+    const select_query2 = 'select mobile from employeedata where mobile = $1'
 
     con.query(select_query1, [id], (err, result) => {
         if (err) {
@@ -48,22 +48,22 @@ function userinsert(req, res, next) {
                     });
                 });
             }
-            // else {
-            //         con.query(select_query2, [mobile], (err, result) => {
-            //             if (err) {
-            //                 res.send(err);
-            //             } else {
-            //                 if (result.rows.length > 0) {
-            //                     con.query('SELECT * FROM employeedata ORDER BY empid', (err2, result2) => {
-            //                         if (err2) return res.send(err2);
-            //                         res.render('insert.ejs', {alert: 'Employee Mobile number already exists',employees: result2.rows || []});
-            //                     });
-            //                 } else {
-            //                     next();
-            //                 }
-            //             }
-            //         });
-            // }
+            else {
+                    con.query(select_query2, [mobile], (err, result) => {
+                        if (err) {
+                            res.send(err);
+                        } else {
+                            if (result.rows.length > 0) {
+                                con.query('SELECT * FROM employeedata ORDER BY empid', (err2, result2) => {
+                                    if (err2) return res.send(err2);
+                                    res.render('insert.ejs', {alert: 'Employee Mobile number already exists',employees: result2.rows || []});
+                                });
+                            } else {
+                                next();
+                            }
+                        }
+                    });
+            }
         }
     });
 }
